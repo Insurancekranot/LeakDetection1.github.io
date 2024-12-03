@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>דף נחיתה</title>
+<style>
+        body {
+            font-family: 'Heebo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+            color: #004d40;
+            direction: rtl;
+        }
+        .top-bar {
+            background-color: #00796b;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        nav {
+            background-color: #b2dfdb;
+            border-bottom: 2px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: #004d40;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            white-space: nowrap;
+        }
+        nav a:hover {
+            background-color: #00796b;
+            color: white;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown > a {
+            margin-top: -8px;
+        }
+        .dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #b2dfdb;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            top: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.3s ease;
+            transform: translateY(-10px);
+        }
+        .dropdown.open .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .dropdown-content a {
+            color: #004d40;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 1.2em;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        .content-section {
+            display: none;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 900px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .active {
+            display: block;
+        }
+        #about {
+            background: url('background.jpg') no-repeat center center;
+            background-size: cover;
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        #about h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            margin-bottom: 20px;
+        }
+        #about .about-content {
+            font-size: 1.5em;
+            line-height: 1.8;
+            color: #004d40;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        #contact {
+            background: #ffffff;
+            color: #004d40;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        #contact h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+        #contact p {
+            font-size: 1.4em;
+            line-height: 1.8;
+            text-align: center;
+        }
+        #contact .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        #contact .contact-info a {
+            text-decoration: none;
+            font-size: 1.5em;
+            color: #0066cc;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.2s;
+        }
+        #contact .contact-info a:hover {
+            color: #ff6600;
+        }
+        #contact-form {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        #contact-form input, #contact-form textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        #contact-form button {
+            background-color: #00796b;
+            color: #ffffff;
+            font-size: 1.4em;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        #contact-form button:hover {
+            background-color: #004a99;
+        }
+        #pressure-meter .about-content,
+        #thermal-camera .about-content {
+            font-size: 1.5em;
+            line-height: 1.8;
+        }
+
+    @media only screen and (max-width: 600px) {
+        body {
+            font-size: 16px;
+            padding: 10px;
+        }
+        nav a {
+            font-size: 1em;
+            padding: 10px;
+        }
+        .content-section {
+            padding: 15px;
+            margin: 10px auto;
+        }
+        #contact-form input, #contact-form textarea {
+            width: 100%;
+            font-size: 1em;
+            padding: 10px;
+        }
+        #contact-form button {
+            font-size: 1em;
+            padding: 10px 20px;
+        }
+        nav {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .dropdown-content {
+            width: 100%;
+        }
+    }
+    </style>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/></head>
+<body>
+<div id="dynamic-title" style="text-align:center; margin:20px 0; font-size:2.5em; font-weight:bold; color:#0066cc; text-shadow: 1px 1px 2px #ddd;"></div>
+<div class="top-bar" style="font-size:1.2em; letter-spacing:1px;">
+        📞 <strong>ייעוץ מקצועי ללא התחייבות</strong> - התקשרו עכשיו: <a href="tel:0525501403" style="color:white; text-decoration:underline;">052-5501403</a>
+</div>
+<nav>
+<a href="#" onclick="showTab('about')">אודות</a>
+<a href="#" onclick="showTab('leak-detection')">איתור נזילות מים</a>
+<a href="#" onclick="showTab('rainwater-detection')">איתור חדירת מי גשמים</a>
+<div class="dropdown">
+<a href="#" onclick="toggleDropdown(event)">ציוד ומכשור</a>
+<div class="dropdown-content">
+<a href="#" onclick="showTab('thermal-camera')">מצלמה תרמית לאיתור נזילות</a>
+<a href="#" onclick="showTab('pressure-meter')">מד לחץ</a>
+<a href="#" onclick="showTab('ball-test')">בדיקת בלון</a>
+<a href="#" onclick="showTab('water-heater')">מחמם מים</a>
+<a href="#" onclick="showTab('small-fiber-camera')">מצלמה סיב אופטי קטנה</a>
+<a href="#" onclick="showTab('large-fiber-camera')">מצלמה סיב אופטי גדולה</a>
+<a href="#" onclick="showTab('metal-detector')">גלאי מתכות</a>
+<a href="#" onclick="showTab('acoustic-listening-device')">מכשיר שמיעה אקוסטי</a>
+<a href="#" onclick="showTab('moisture-meter')">פרוטימטר - מד לחות</a>
+</div>
+</div>
+<a href="#" onclick="showTab('contact')">צור קשר</a>
+</nav>
+<div class="content-section" id="about" style="display: block;">
+<h2>אודותי</h2>
+<div class="about-content">
+<p style="font-weight:bold; color:#FF6600; text-align:center;">🌟 המומחיות שלי היא היתרון שלכם!</p>
+    שמי אלי משה, הבעלים של "איתורי נזילות המעיינות והבקעה", מומחה לאיתור נזילות ואחד מחלוצי תחום איתור נזילות מים בישראל. הידע והניסיון שלי נשענים על הכשרה מקצועית מעמיקה, לצד התמחות בטכנולוגיות החדשניות ביותר בתחום.<br/><br/>
+    אני אינסטלטור מוסמך מטעם מכללת "אין ליין", ובעל הסמכה מתקדמת כמאתר נזילות מטעם מאיר לוזון – מהשמות המובילים בתחום. בנוסף, הוסמכתי על ידי חברת ICT כתרמוגרף ברמת Level 1, תחום המתמקד בזיהוי נזילות באמצעים תרמיים מתקדמים. אני חבר גאה באיגוד מאתרי הנזילות והתרמוגרפיה בישראל, ואף הייתי בין הראשונים לסיים את קורס "אוטם ומאתר נזילות מוסמך" של משרד העבודה.<br/><br/>
+    בזכות שילוב בין ידע מקצועי, ניסיון מעשי וציוד טכנולוגי מהמתקדמים ביותר, אני מתחייב לספק לכל לקוח שירות ברמה הגבוהה ביותר – החל מאיתור מדויק ועד לפתרון הבעיה ביסודיות. כשאתם פונים ל"איתורי נזילות המעיינות והבקעה", אתם בידיים מקצועיות, אמינות ובטוחות.<br/><br/>
+<strong>למה חשוב להזמין מומחה אמיתי לאיתור נזילות?</strong><br/>
+    המשפט "אל תזמינו תיקון לפני בדיקה מקצועית" הוא אבן יסוד בתחום איתור הנזילות. מדוע? לאורך השנים, חוויתי בעצמי שוב ושוב מקרים שבהם בעלי בתים השקיעו אלפי שקלים בתיקונים לא נחוצים. התוצאה? זמן מבוזבז, הוצאות מיותרות ובעיות שנותרו ללא פתרון.<br/>
+    המסקנה ברורה: לפני שפונים לבעל מקצוע, חובה לבצע בדיקה מקצועית באמצעות מומחה מוסמך לאיתור נזילות. הבדיקה כוללת דוח מפורט שמבהיר מהו מקור הבעיה, אילו שלבים נדרשים לתיקון ואילו בעלי מקצוע מומלצים לביצוע העבודה. אצלנו, תוכלו ליהנות גם מאפשרות לטיפול ישיר דרך החברה שלנו, המתמחה בשימוש בטכנולוגיות מתקדמות לתיקון ליקויים ביעילות.<br/><br/>
+<strong>שוק משתנה - ואתגרי המקצועיות</strong><br/>
+    בעקבות הביקוש הגובר, נכנסו לתחום גם אנשי מקצוע לא מוסמכים. רבים מהם משתמשים בציוד מתקדם אך ללא ההבנה הנדרשת להפעלתו. מצב זה גרם לבלבול בקרב הלקוחות ולשוק מוצף במחירים נמוכים ולא הגיוניים.<br/>
+    כדי להבטיח רמת מקצועיות גבוהה, אנו ממליצים לבדוק היטב את ההכשרה וההסמכה של המומחה שאתם מזמינים. איגוד המאתרים התרמוגרפיים, למשל, מספק מידע ברור ושקוף על בעלי מקצוע מוסמכים. כך תוכלו לוודא שהשירות שתקבלו יהיה איכותי, מקצועי ושקוף.<br/><br/>
+<strong>כמה עולה איתור נזילות אמיתי ואיכותי?</strong><br/>
+    איתור מקצועי כולל שימוש בציוד מתקדם, ידע מעמיק וניסיון רב שנים. מחיר הוגן לשירות כזה נע בין 1,200 ל-1,300 ₪, וזאת בכדי לכסות את עלויות הבדיקה ולספק תמורה מקצועית. אם מוצע לכם שירות במחיר נמוך בצורה חריגה, כדאי לעצור ולבדוק – לעיתים מדובר בניסיון להוזיל עלויות על חשבון האיכות.<br/><br/>
+<strong>טיפ מנצח לפני הזמנת שירות</strong><br/>
+    לפני שאתם מזמינים בדיקת איתור נזילות, בדקו את ההכשרה של נותן השירות. וודאו שיש בידו את ההסמכה המתאימה, ניסיון רב שנים ויכולת לפענח את תוצאות הבדיקה בצורה מקצועית. אל תתפתו למחירים זולים או להבטחות מופרזות – זה עלול לעלות ביוקר.
+</div>
+</div>
+<div class="content-section" id="contact" style="display: none; font-size: 1.5em; line-height: 1.8;">
+<h2 style="text-align:center; font-size:2.5em; color:#00796b; margin-bottom:30px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);">📬 צור קשר</h2>
+<h2>צור קשר</h2>
+<p style="font-size:1.5em; line-height:1.6; color:#004d40; text-align:justify; margin-bottom:20px;">אלי משה, מומחה לאיתור נזילות. נשמח לשמוע מכם ולהעניק לכם ייעוץ מקצועי ללא התחייבות.</p>
+<div class="contact-info">
+<a href="tel:0525501403" onmouseout="this.style.color='#00796b'; this.style.transform='scale(1.0)';" onmouseover="this.style.color='#004d40'; this.style.transform='scale(1.05)';" style="text-decoration:none; font-size:1.3em; color:#00796b; font-weight:bold; transition:color 0.3s, transform 0.2s;">📞 התקשרו אלינו: 052-5501403</a>
+<a href="mailto:elimoshe53@gmail.com" onmouseout="this.style.color='#00796b'; this.style.transform='scale(1.0)';" onmouseover="this.style.color='#004d40'; this.style.transform='scale(1.05)';" style="text-decoration:none; font-size:1.3em; color:#00796b; font-weight:bold; transition:color 0.3s, transform 0.2s;">✉ שלחו לנו מייל: elimoshe53@gmail.com</a>
+<a href="https://wa.me/972525501403" onmouseout="this.style.color='#00796b'; this.style.transform='scale(1.0)';" onmouseover="this.style.color='#004d40'; this.style.transform='scale(1.05)';" style="text-decoration:none; font-size:1.3em; color:#00796b; font-weight:bold; transition:color 0.3s, transform 0.2s;">💬 שלחו הודעה בוואצפ</a>
+</div>
+<form id="contact-form" style="margin-top:40px; display:flex; flex-direction:column; align-items:center; gap:20px;">
+<button onmouseout="this.style.backgroundColor='#00796b'; this.style.transform='scale(1.0)';" onmouseover="this.style.backgroundColor='#004d40'; this.style.transform='scale(1.05)';" style="background-color:#00796b; color:white; font-size:1.2em; padding:15px 30px; border:none; border-radius:8px; cursor:pointer; transition:background-color 0.3s, transform 0.2s;">
+            📞 התקשרו עכשיו
+        </button>
+<input name="name" placeholder="הכנס את שמך" required="" style="width:100%; max-width:500px; padding:15px; font-size:1em; border-radius:8px; border:1px solid #ddd; box-shadow:0 2px 5px rgba(0, 0, 0, 0.1);" type="text"/>
+<input name="phone" placeholder="הכנס את מספר הטלפון שלך" required="" style="width:100%; max-width:500px; padding:15px; font-size:1em; border-radius:8px; border:1px solid #ddd; box-shadow:0 2px 5px rgba(0, 0, 0, 0.1);" type="tel"/>
+<input name="email" placeholder="הכנס את כתובת המייל שלך" required="" style="width:100%; max-width:500px; padding:15px; font-size:1em; border-radius:8px; border:1px solid #ddd; box-shadow:0 2px 5px rgba(0, 0, 0, 0.1);" type="email"/>
+<textarea name="message" placeholder="הכנס את ההודעה שלך" required="" rows="4" style="width:100%; max-width:500px; padding:15px; font-size:1em; border-radius:8px; border:1px solid #ddd; box-shadow:0 2px 5px rgba(0, 0, 0, 0.1);"></textarea>
+<button onmouseout="this.style.backgroundColor='#00796b'; this.style.transform='scale(1.0)';" onmouseover="this.style.backgroundColor='#004d40'; this.style.transform='scale(1.05)';" style="background-color:#00796b; color:white; font-size:1.2em; padding:15px 30px; border:none; border-radius:8px; cursor:pointer; transition:background-color 0.3s, transform 0.2s;" type="submit">שלח פניה</button>
+</form>
+</div>
+<script>
+    function showTab(tabId) {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.display = 'none';
+        });
+        const selectedTab = document.getElementById(tabId);
+        if (selectedTab) {
+            selectedTab.style.display = 'block';
+        }
+
+        // Update the dynamic title based on the selected tab
+        const tabTitles = {
+            'about': 'אודות',
+            'leak-detection': 'איתור נזילות מים',
+            'rainwater-detection': 'איתור חדירת מי גשמים',
+            'thermal-camera': 'מצלמה תרמית',
+            'pressure-meter': 'מד לחץ',
+            'ball-test': 'בדיקת בלון',
+            'water-heater': 'מחמם מים',
+            'small-fiber-camera': 'מצלמה סיב אופטי קטנה',
+            'large-fiber-camera': 'מצלמה סיב אופטי גדולה',
+            'metal-detector': 'גלאי מתכות',
+            'acoustic-listening-device': 'מכשיר שמיעה אקוסטי',
+            'moisture-meter': 'פרוטימטר מד לחות',
+            'testimonials': 'לקוחות ממליצים',
+            'contact': 'צור קשר'
+        };
+        const dynamicTitle = document.getElementById('dynamic-title');
+        if (dynamicTitle && tabTitles[tabId]) {
+            dynamicTitle.textContent = tabTitles[tabId];
+        }
+    }
+    function toggleDropdown(event) {
+        event.preventDefault();
+        const dropdown = event.target.closest('.dropdown');
+        if (dropdown) {
+            dropdown.classList.toggle('open');
+        }
+    }
+    window.onload = function() {
+        // Ensure the "about" section is shown by default
+        showTab('about');
+    };
+</script>
+</body>
+</html>
+    
